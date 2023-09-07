@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.ronin_engineer.software_development.infrastructure.mapper.airport.AirportMapper">
+    <resultMap id="BaseResultMap" type="dev.ronin_engineer.software_development.domain.airport.entity.Airport">
+        <id column="airport_id" jdbcType="VARCHAR" property="airportId"/>
+        <result column="airport_name" jdbcType="VARCHAR" property="airportName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+        <result column="updated_by" jdbcType="VARCHAR" property="updatedBy"/>
+        <result column="data" jdbcType="LONGVARCHAR" property="data"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+            airport_id,
+            airport_name,
+            status,
+            version,
+            created_at,
+            created_by,
+            updated_at,
+            updated_by,
+            data
+        FROM airlines.airport
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from register
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="dev.ronin_engineer.software_development.domain.airport.entity.Airport" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into register (id, use_case_code, employee_id,
+                              employee_name, employee_email, phone_number,
+                              company_code, register_date, unregister_date,
+                              register_source, reason, status,
+                              version, created_at, created_by,
+                              updated_at, updated_by, data)
+        values (#{id,jdbcType=BIGINT}, #{useCaseCode,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR},
+                #{employeeName,jdbcType=VARCHAR}, #{employeeEmail,jdbcType=VARCHAR},
+                #{phoneNumber,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP},
+                #{unregisterDate,jdbcType=TIMESTAMP},
+                #{registerSource,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+                #{version,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR},
+                #{updatedAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{data,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="dev.ronin_engineer.software_development.domain.airport.entity.Airport">
+        update register
+        set use_case_code   = #{useCaseCode,jdbcType=VARCHAR},
+            employee_id     = #{employeeId,jdbcType=VARCHAR},
+            employee_name   = #{employeeName,jdbcType=VARCHAR},
+            employee_email  = #{employeeEmail,jdbcType=VARCHAR},
+            phone_number    = #{phoneNumber,jdbcType=VARCHAR},
+            company_code    = #{companyCode,jdbcType=VARCHAR},
+            register_date   = #{registerDate,jdbcType=TIMESTAMP},
+            unregister_date = #{unregisterDate,jdbcType=TIMESTAMP},
+            register_source = #{registerSource,jdbcType=VARCHAR},
+            reason          = #{reason,jdbcType=VARCHAR},
+            status          = #{status,jdbcType=INTEGER},
+            version         = #{version,jdbcType=INTEGER},
+            created_at      = #{createdAt,jdbcType=TIMESTAMP},
+            created_by      = #{createdBy,jdbcType=VARCHAR},
+            updated_at      = #{updatedAt,jdbcType=TIMESTAMP},
+            updated_by      = #{updatedBy,jdbcType=VARCHAR},
+            data            = #{data,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+            airport_id,
+            airport_name,
+            status,
+            version,
+            created_at,
+            created_by,
+            updated_at,
+            updated_by,
+            data
+        FROM airport
+        WHERE airport_id = #{id,jdbcType=BIGINT}
+    </select>
+
+</mapper>

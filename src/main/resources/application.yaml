@@ -1,0 +1,87 @@
+application-name: airlines-service
+
+server:
+  port: 8080
+
+app:
+  cache:
+    redis:
+      enable: true
+      nodes:
+      password:
+      host: localhost
+      port: 6379
+      timeoutSeconds: 20
+
+    local:
+      enable: true
+      timeoutSeconds: 20
+
+    request:
+      ttl: 168
+
+  transaction:
+    lock:
+      ttl:
+        minutes: 5
+      wait:
+        seconds: 10
+
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 5
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  quartz:
+    job-store-type: memory
+    properties:
+      org.quartz.threadPool:
+        class: org.quartz.simpl.SimpleThreadPool
+        threadCount: 5
+      org.quartz.scheduler:
+        instanceName: DefaultQuartzScheduler
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/re_airlines
+    username: user
+    password: pass
+
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      maximum-pool-size: 20
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    security:
+      protocol: plaintext
+
+#    bootstrap-servers:
+#    security:
+#      protocol: SSL
+#    ssl:
+#      trust-store-location:
+#      trust-store-password:
+#      key-store-location:
+#      key-store-password:
+#      key-password:
+
+    consumer:
+      group-id: re-software-development
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+kafka:
+
+
+logging:
+  level:
+    dev.ronin_engineer.software_development.infrastructure.mapper: DEBUG
+    #    org.springframework.security: DEBUG
+
+    org.apache.kafka: OFF

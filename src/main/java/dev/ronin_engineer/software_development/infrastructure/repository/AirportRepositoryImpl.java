@@ -1,6 +1,7 @@
-package dev.ronin_engineer.software_development.domain.airport.repository;
+package dev.ronin_engineer.software_development.infrastructure.repository;
 
 import dev.ronin_engineer.software_development.domain.airport.entity.Airport;
+import dev.ronin_engineer.software_development.domain.airport.repository.AirportRepository;
 import dev.ronin_engineer.software_development.infrastructure.mapper.airport.AirportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

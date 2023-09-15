@@ -74,8 +74,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 mutableRequest.addHeader(FieldName.REQUESTER, userId);
                 mutableRequest.setAttribute(FieldName.SCOPE, decodedToken.getScope());
                 filterChain.doFilter(mutableRequest, response);
-            }
-            else {
+            } else {
                 RequestWrapper requestWrapper = new RequestWrapper(request);
                 JSONObject body = StringUtils.isEmpty(requestWrapper.getBody()) ?
                         new JSONObject() :
@@ -85,13 +84,11 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 requestWrapper.setBody(body.toString());
                 filterChain.doFilter(requestWrapper, response);
             }
-        }
-        catch (AuthException e) {
+        } catch (AuthException e) {
             log.error("Exception at verifying token");
             e.printStackTrace();
             buildErrorResponse(response, ResponseCode.UNAUTHORIZED);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Filter exception: {}", e.getMessage());
             e.printStackTrace();
             buildErrorResponse(response, ResponseCode.INTERNAL_SERVER_ERROR);

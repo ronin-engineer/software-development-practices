@@ -26,12 +26,12 @@ import java.util.List;
 public class AuthorizationAspect {
 
 
-
     @SneakyThrows
     @Around("@annotation(Authorize)")
     public Object preAuthorize(ProceedingJoinPoint jp) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         List<String> scope = (List<String>) attributes.getAttribute(FieldName.SCOPE, 0);
+
         if (scope == null || scope.isEmpty()) {
             throw new BusinessException(ResponseCode.FORBIDDEN);
         }
@@ -41,7 +41,7 @@ public class AuthorizationAspect {
         Authorize authorize = method.getAnnotation(Authorize.class);
         Action action = authorize.action();
         Resource resource = authorize.resource();
-        String permission = action.getAction()+ ":" + resource.getResource();
+        String permission = action.getAction() + ":" + resource.getResource();
 
         if (!isAllowed(scope, permission))
             throw new BusinessException(ResponseCode.FORBIDDEN);
@@ -50,7 +50,7 @@ public class AuthorizationAspect {
     }
 
     private static boolean isAllowed(List<String> scopes, String permission) {
-        for (String s: scopes) {
+        for (String s : scopes) {
             if (s.equals(permission)) {
                 return true;
             }

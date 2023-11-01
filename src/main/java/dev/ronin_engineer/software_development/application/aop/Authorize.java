@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authorize {
 
-    public Action action();
+    Action action();
 
-    public Resource resource();
+    Resource resource();
 }

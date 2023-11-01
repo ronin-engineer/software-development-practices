@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/" + applicationName + "/public/**",
+                                "/" + applicationName + "/public/**", //
                                 "/" + applicationName + "/login")
                         .permitAll()
                         .anyRequest().authenticated()

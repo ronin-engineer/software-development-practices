@@ -22,10 +22,8 @@ app:
 
   transaction:
     lock:
-      ttl:
-        minutes: 5
-      wait:
-        seconds: 10
+      ttl: 300000
+      wait: 10000
 
 spring:
   task:

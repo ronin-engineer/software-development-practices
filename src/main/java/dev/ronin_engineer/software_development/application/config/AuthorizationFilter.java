@@ -64,16 +64,16 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
         String accessToken = authorizationHeader.replace(DefaultValue.BEARER, "");
         try {
-            DecodedToken decodedToken = accessTokenService.verify(accessToken);
+            DecodedToken decodedToken = accessTokenService.verify(accessToken); // 1. verify token
             UsernamePasswordAuthenticationToken authentication = loadAuthentication(decodedToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String userId = decodedToken.getUserId();
 
             if (StringUtils.startsWithIgnoreCase(request.getContentType(), DefaultValue.MULTIPART_PREFIX)) {
                 MutableHttpServletRequest mutableRequest = new MutableHttpServletRequest(request);
-                mutableRequest.addHeader(FieldName.REQUESTER, userId);
-                mutableRequest.setAttribute(FieldName.SCOPE, decodedToken.getScope());
-                filterChain.doFilter(mutableRequest, response);
+                mutableRequest.addHeader(FieldName.REQUESTER, userId);  //
+                mutableRequest.setAttribute(FieldName.SCOPE, decodedToken.getScope());  // 2. set scope to attribute
+                filterChain.doFilter(mutableRequest, response); // 3. move on
             } else {
                 RequestWrapper requestWrapper = new RequestWrapper(request);
                 JSONObject body = StringUtils.isEmpty(requestWrapper.getBody()) ?

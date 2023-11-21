@@ -24,9 +24,4 @@ public class TokenResponse {
 
     private Long expiresIn;
 
-    private UserProfile userProfile;
-
-
-    @JsonIgnore
-    TokenDto refreshTokenObj;
 }

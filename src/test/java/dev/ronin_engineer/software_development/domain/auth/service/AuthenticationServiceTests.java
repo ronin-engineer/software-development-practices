@@ -2,7 +2,7 @@ package dev.ronin_engineer.software_development.domain.auth.service;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 import dev.ronin_engineer.software_development.application.constant.ResponseCode;
@@ -13,8 +13,10 @@ import dev.ronin_engineer.software_development.domain.auth.entity.User;
 import dev.ronin_engineer.software_development.domain.auth.repository.UserRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,23 +40,25 @@ public class AuthenticationServiceTests {
 
 
     @Test
+    @DisplayName("Happy Case: login successfully")
     public void authenticate_RightUser_ReturnToken() {
-        // 1. Arrange
+        // 1. Arrange (Given)
         LoginRequest request = new LoginRequest("ronin_engineer", "pass34");
-
         when(userRepository.findByUsername(request.getUsername()))
                 .thenReturn(defaultUser);
 
-        // 2. Action
+        // 2. Action (When)
         TokenResponse response = service.authenticate(request);
 
 
-        // 3. Assert
+        // 3. Assert (Then)
+        verify(userRepository, times(1)).findByUsername(anyString());
         assertNotNull(response);
         assertNotEquals("", response.getAccessToken());
     }
 
     @Test
+    @DisplayName("Edge Case: user not found")
     public void authenticate_UserNotFound_ReturnException() {
         // 1. Arrange
         LoginRequest request = new LoginRequest("ict_engineer", "pass34");
@@ -72,6 +76,11 @@ public class AuthenticationServiceTests {
     }
 
 
+//    @Test
+//    @ValueSource(ints = {0, 2, 9999})
+//    public void testNonNegative(Integer x) {
+//        sut.methodX(x);
+//    }
 
 
     // negative, 0, positive
@@ -82,17 +91,5 @@ public class AuthenticationServiceTests {
     // int[] a = [0, 2, 999999]
     // for (int test: a)
     // {...}
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
